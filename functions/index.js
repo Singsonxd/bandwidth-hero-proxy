@@ -1,5 +1,4 @@
 const pick = require("../util/pick"),
-  fetch = require("node-fetch"),
   shouldCompress = require("../util/shouldCompress"),
   compress = require("../util/compress"),
   DEFAULT_QUALITY = 40;
@@ -7,7 +6,7 @@ exports.handler = async (e, t) => {
   let { url: r } = e.queryStringParameters,
     { jpeg: s, bw: o, l: a } = e.queryStringParameters;
   if (!r)
-    return { statusCode: 200, body: "Bandwidth Hero Data Compression Service" };
+    return { statusCode: 200, body: "bandwidth-hero-proxy" };
   try {
     r = JSON.parse(r);
   } catch {}
@@ -29,7 +28,7 @@ exports.handler = async (e, t) => {
         e.ok
           ? ((h = e.headers),
             {
-              data: await e.buffer(),
+              data: Buffer.from(await e.arrayBuffer()),
               type: e.headers.get("content-type") || "",
             })
           : { statusCode: e.status || 302 },
